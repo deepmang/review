@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating and Feedback with Background Image</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+    
+</html>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Review Form with Auto Feeling Comment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px; 
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        #feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .feedback-good {
+            color: green;
+        }
+        .feedback-average {
+            color: orange;
+        }
+        .feedback-bad {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Leave a Google Review</h2>
+        <form action="https://api.web3forms.com/submit" method="POST">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+            <input type="hidden" name="access_key" value="39789418-413e-4379-89ff-5672664da870">
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating" required onchange="showFeedbackAndFeeling()">
+                <option value="">Select rating...</option>
+                <option value="5">5 stars</option>
+                <option value="4">4 stars</option>
+                <option value="3">3 stars</option>
+                <option value="2">2 stars</option>
+                <option value="1">1 star</option>
+            </select>
+
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" rows="4"></textarea>
+
+            <input type="submit" value="Submit Review">
+        </form>
+
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+        function showFeedbackAndFeeling() {
+            var rating = document.getElementById("rating").value;
+            var feedbackDiv = document.getElementById("feedback");
+            var feelingComment = "";
+
+            if (rating === "5") {
+                feelingComment = "Excellent! We're thrilled to hear you had a 5-star experience with us.";
+                feedbackDiv.innerHTML = `<p class='feedback-good'>${feelingComment}</p>`;
+            } else if (rating === "4") {
+                feelingComment = "Great! Thank you for your 4-star review. We appreciate your feedback.";
+                feedbackDiv.innerHTML = `<p class='feedback-good'>${feelingComment}</p>`;
+            } else if (rating === "3") {
+                feelingComment = "Good, but there's room for improvement. We'd love to hear how we can enhance your experience.";
+                feedbackDiv.innerHTML = `<p class='feedback-average'>${feelingComment}</p>`;
+            } else if (rating === "2") {
+                feelingComment = "We're sorry to hear that. Please let us know how we can improve.";
+                feedbackDiv.innerHTML = `<p class='feedback-bad'>${feelingComment}</p>`;
+            } else if (rating === "1") {
+                feelingComment = "We apologize for your experience. Please share more details so we can address your concerns.";
+                feedbackDiv.innerHTML = `<p class='feedback-bad'>${feelingComment}</p>`;
+            } else {
+                feedbackDiv.innerHTML = ""; // Clear feedback if no rating selected
+            }
+
+            // Set feeling comment in the textarea
+            document.getElementById("comment").value = feelingComment;
+        }
+
+        document.getElementById("reviewForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var name = document.getElementById("name").value;
+            var rating = document.getElementById("rating").value;
+            var comment = document.getElementById("comment").value;
+
+            // Validate rating
+            if (!rating) {
+                alert("Please select a rating.");
+                return;
+            }
+
+            // Display confirmation (you can modify this part to send data to a server or API)
+            alert(`Thank you, ${name}! You rated ${rating} stars. Your comment: '${comment}'`);
+
+            // Optionally, clear the form after submission
+            document.getElementById("reviewForm").reset();
+            document.getElementById("feedback").innerHTML = ""; // Clear feedback after submission
+        });
+        
+    </script>
+</body>
+</html>
